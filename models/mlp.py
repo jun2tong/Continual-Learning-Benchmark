@@ -9,10 +9,10 @@ class MLP(nn.Module):
         self.in_dim = in_channel*img_sz*img_sz
         self.linear = nn.Sequential(
             nn.Linear(self.in_dim, hidden_dim),
-            #nn.BatchNorm1d(hidden_dim),
+            # nn.BatchNorm1d(hidden_dim),
             nn.ReLU(inplace=True),
             nn.Linear(hidden_dim, hidden_dim),
-            #nn.BatchNorm1d(hidden_dim),
+            # nn.BatchNorm1d(hidden_dim),
             nn.ReLU(inplace=True),
         )
         self.last = nn.Linear(hidden_dim, out_dim)  # Subject to be replaced dependent on task
