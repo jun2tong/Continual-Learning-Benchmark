@@ -2,9 +2,10 @@ import torchvision
 from torchvision import transforms
 from .wrapper import CacheClassLabel
 
+
 def MNIST(dataroot, train_aug=False):
     # Add padding to make 32x32
-    #normalize = transforms.Normalize(mean=(0.1307,), std=(0.3081,))  # for 28x28
+    # normalize = transforms.Normalize(mean=(0.1307,), std=(0.3081,))  # for 28x28
     normalize = transforms.Normalize(mean=(0.1000,), std=(0.2752,))  # for 32x32
 
     val_transform = transforms.Compose([
@@ -37,6 +38,7 @@ def MNIST(dataroot, train_aug=False):
 
     return train_dataset, val_dataset
 
+
 def CIFAR10(dataroot, train_aug=False):
     normalize = transforms.Normalize(mean=[0.491, 0.482, 0.447], std=[0.247, 0.243, 0.262])
 
@@ -58,7 +60,7 @@ def CIFAR10(dataroot, train_aug=False):
         train=True,
         download=True,
         transform=train_transform
-        )
+    )
     train_dataset = CacheClassLabel(train_dataset, 10, train_dataset.train_labels)
 
     val_dataset = torchvision.datasets.CIFAR10(
@@ -105,4 +107,3 @@ def CIFAR100(dataroot, train_aug=False):
     val_dataset = CacheClassLabel(val_dataset, 100, val_dataset.test_labels)
 
     return train_dataset, val_dataset
-

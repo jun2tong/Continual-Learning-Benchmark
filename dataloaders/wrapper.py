@@ -16,7 +16,7 @@ class CacheClassLabel(data.Dataset):
         return len(self.dataset)
 
     def __getitem__(self, index):
-        img,target = self.dataset[index]
+        img, target = self.dataset[index]
         return img, target
 
 
@@ -25,7 +25,7 @@ class AppendName(data.Dataset):
     A dataset wrapper that also return the name of the dataset/task
     """
     def __init__(self, dataset, name, first_class_ind=0):
-        super(AppendName,self).__init__()
+        super(AppendName, self).__init__()
         self.dataset = dataset
         self.name = name
         self.first_class_ind = first_class_ind  # For remapping the class index
@@ -34,7 +34,7 @@ class AppendName(data.Dataset):
         return len(self.dataset)
 
     def __getitem__(self, index):
-        img,target = self.dataset[index]
+        img, target = self.dataset[index]
         target = target + self.first_class_ind
         return img, target, self.name
 
@@ -44,11 +44,11 @@ class Subclass(data.Dataset):
     A dataset wrapper that return the task name and remove the offset of labels (Let the labels start from 0)
     """
     def __init__(self, dataset, class_list, remap=True):
-        '''
+        """
         :param dataset: (CacheClassLabel)
         :param class_list: (list) A list of integers
         :param remap: (bool) Ex: remap class [2,4,6 ...] to [0,1,2 ...]
-        '''
+        """
         super(Subclass,self).__init__()
         assert isinstance(dataset, CacheClassLabel), 'dataset must be wrapped by CacheClassLabel'
         self.dataset = dataset

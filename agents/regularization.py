@@ -45,20 +45,20 @@ class L2(NormalNN):
 
         # Save the weight and importance of weights of current task
         self.task_count += 1
-        if self.online_reg and len(self.regularization_terms)>0:
+        if self.online_reg and len(self.regularization_terms) > 0:
             # Always use only one slot in self.regularization_terms
-            self.regularization_terms[1] = {'importance':importance, 'task_param':task_param}
+            self.regularization_terms[1] = {'importance': importance, 'task_param': task_param}
         else:
             # Use a new slot to store the task-specific information
-            self.regularization_terms[self.task_count] = {'importance':importance, 'task_param':task_param}
+            self.regularization_terms[self.task_count] = {'importance': importance, 'task_param': task_param}
 
     def criterion(self, inputs, targets, tasks, regularization=True, **kwargs):
         loss = super(L2, self).criterion(inputs, targets, tasks, **kwargs)
 
-        if regularization and len(self.regularization_terms)>0:
+        if regularization and len(self.regularization_terms) > 0:
             # Calculate the reg_loss only when the regularization_terms exists
             reg_loss = 0
-            for i,reg_term in self.regularization_terms.items():
+            for i, reg_term in self.regularization_terms.items():
                 task_reg_loss = 0
                 importance = reg_term['importance']
                 task_param = reg_term['task_param']
@@ -93,7 +93,7 @@ class EWC(L2):
         self.log('Computing EWC')
 
         # Initialize the importance matrix
-        if self.online_reg and len(self.regularization_terms)>0:
+        if self.online_reg and len(self.regularization_terms) > 0:
             importance = self.regularization_terms[1]['importance']
         else:
             importance = {}
@@ -104,7 +104,7 @@ class EWC(L2):
         # Otherwise it uses mini-batches for the estimation. This speeds up the process a lot with similar performance.
         if self.n_fisher_sample is not None:
             n_sample = min(self.n_fisher_sample, len(dataloader.dataset))
-            self.log('Sample',self.n_fisher_sample,'for estimating the F matrix.')
+            self.log('Sample', self.n_fisher_sample, 'for estimating the F matrix.')
             rand_ind = random.sample(list(range(len(dataloader.dataset))), n_sample)
             subdata = torch.utils.data.Subset(dataloader.dataset, rand_ind)
             dataloader = torch.utils.data.DataLoader(subdata, shuffle=True, num_workers=2, batch_size=1)
@@ -283,7 +283,7 @@ class MAS(L2):
         self.log('Computing MAS')
 
         # Initialize the importance matrix
-        if self.online_reg and len(self.regularization_terms)>0:
+        if self.online_reg and len(self.regularization_terms) > 0:
             importance = self.regularization_terms[1]['importance']
         else:
             importance = {}

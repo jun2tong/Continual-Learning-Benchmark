@@ -21,8 +21,8 @@ class NormalNN(nn.Module):
                                     gpuid=[int]
         """
         super(NormalNN, self).__init__()
-        self.log = print if agent_config['print_freq'] > 0 else lambda \
-                *args: None  # Use a void function to replace the print
+        # Use a void function to replace the print
+        self.log = print if agent_config['print_freq'] > 0 else lambda *args: None
         self.config = agent_config
         # If out_dim is a dict, there is a list of tasks. The model will have a head for each task.
         self.multihead = True if len(
